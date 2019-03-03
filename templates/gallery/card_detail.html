@@ -21,5 +21,10 @@
                 <a href="{{ album.get_absolute_url }}" class="btn btn-link btn-block">Acceseaza
                     album</a>
             </div>
+            {% if request.user.is_superuser %}
+                <div class="action-btn">
+                    <a href="" class="btn btn-link">Upload</a>
+                </div>
+            {% endif %}
         </div>
 </div>
