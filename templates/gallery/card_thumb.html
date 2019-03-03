@@ -1,0 +1,14 @@
+{% load i18n %}
+<div class="card">
+    <a href="{{ album.get_absolute_url }}" class="custom-card">
+        <img src="{% url 'gallery:photo-resized' preset='thumb' pk=album.preview.0.pk %}"
+             class="img-fluid">
+    </a>
+    <!-- footer -->
+    <div class="card-footer">
+        <i class="far fa-calendar-alt"></i>
+        {% language 'ro' %}
+            <p>{{ album.date|date }}</p>
+        {% endlanguage %}
+    </div>
+</div>

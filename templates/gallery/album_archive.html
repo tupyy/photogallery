@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static from staticfiles %}
+
+{% block extrahead %}
+    <link href="{% static 'photo_gallery/css/album.css' %}" rel="stylesheet">
+    <link href="{% static 'photo_gallery/css/gallery.css' %}" rel="stylesheet">
+    <link href="{% static 'photo_gallery/css/card.css' %}" rel="stylesheet">
+    <link href="{% static 'photo_gallery/css/card_thumb.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Pozele noastre</h1>
+            <p class="lead text-muted">O mica bucatica din viata noastra.</p>
+            <p></p>
+        </div>
+    </section>
+
+    <div class="album text-muted">
+        <div class="container">
+            {% if q %}
+                {% blocktrans with query=q %}Rezultatele cautarii <strong>{{ query }}</strong>{% endblocktrans %} |
+                <a href="{% url 'gallery:index' %}">Vizualizeaza tot</a>
+            {% endif %}
+            {% for date in date_list %}
+                <div class="album_year_container">
+                    <a href="{% url 'gallery:year' date.year %}" class="album_year">{{ date.year }}</a>
+                </div>
+                <div class="row">
+                    {% for key, albums in preview_year.items %}
+                        {% if key == date.year %}
+                            {% for album in albums %}
+                                {% include "gallery/card_detail.html" %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if is_paginated %}
+        <div class="album_page_list">
+            {% if page_obj.has_previous %}
+                <a href="{% url 'gallery:index' %}?page=
+                        {{ page_obj.previous_page_number }}{% if q %}&amp;q={{ q }}{% endif %}">&larr;</a>
+            {% endif %}
+            {{ page_obj.number }} / {{ paginator.num_pages }}
+            {% if page_obj.has_next %}
+                <a href="{% url 'gallery:index' %}?page=
+                        {{ page_obj.next_page_number }}{% if q %}&amp;q={{ q }}{% endif %}">&rarr;</a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <footer>
+        <div class="container">
+            <p>© 2018 Copyright Cosmin Tupangiu</p>
+            <p></p>
+        </div>
+    </footer>
+
+{% endblock %}

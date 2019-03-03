@@ -1,0 +1,130 @@
+.up {
+    font-size: 1.3rem;
+    color: rgba(97, 97, 97, 1);;
+}
+
+.up:hover {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.nav-user {
+    color: white;
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+}
+
+.nav-user > p {
+    margin: 0;
+    padding-left: 0.5rem;
+}
+
+.navbar-search {
+    margin-left: 10px;
+    border-left: 1px solid white;
+    color: white;
+}
+
+/*
+    Mobile
+*/
+
+@media only screen and (max-width: 500px) {
+    .hidden-xs {
+        display: none;
+    }
+
+    .visible-xs {
+        display: flex;
+    }
+
+    .visible-xs > a {
+        width: 100%;
+        margin: 0.75rem;
+    }
+
+    .row {
+        margin: auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    .album_year_container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+    }
+
+    .album_year_container > a {
+        text-decoration: none;
+    }
+
+    .album_year_container > a:hover {
+        color: black;
+    }
+
+    .album_year_container:first-child {
+        margin-top: 0;
+    }
+
+    .album_year {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: rgba(97, 97, 97, 1);
+        text-decoration: none;
+    }
+
+    .album_year:first-child {
+        margin-top: 0;
+    }
+
+    .navbar-logout {
+        color: white;
+    }
+}
+
+/*
+    DESKTOP
+ */
+@media only screen and (min-width: 500px) {
+
+    .hidden-xs {
+        display: flex;
+    }
+
+    .visible-xs {
+        display: none;
+    }
+
+    .album_year_container {
+        display: flex;
+        justify-content: left;
+        margin-top: 1.5rem;
+    }
+
+    .album_year_container > a {
+        text-decoration: none;
+    }
+
+    .album_year_container > a:hover {
+        color: black;
+    }
+
+    .album_year {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: rgba(97, 97, 97, 1);
+        margin-bottom: 10px;
+        text-decoration: none;
+    }
+
+    .row {
+        display: flex;
+        justify-content: left;
+    }
+}
+
+

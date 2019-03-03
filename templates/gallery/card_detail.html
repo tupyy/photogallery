@@ -1,0 +1,25 @@
+{% load i18n %}
+<div class="card">
+        <a href="{{ album.get_absolute_url }}" class="custom-card">
+            <img src="{% url 'gallery:photo-resized' preset='thumb' pk=album.preview.0.pk %}"
+                 class="img-fluid">
+        </a>
+        <div class="card-body">
+            <span class="card_date">
+                <i class="far fa-calendar-alt"></i>
+                {% language 'ro' %}
+                    <p>{{ album.date|date }}</p>
+                {% endlanguage %}
+            </span>
+
+            <h5 class="card-title">{{ album.display_name }}</h5>
+        </div>
+
+        <!-- footer -->
+        <div class="card-footer">
+            <div class="card-btn">
+                <a href="{{ album.get_absolute_url }}" class="btn btn-link btn-block">Acceseaza
+                    album</a>
+            </div>
+        </div>
+</div>

@@ -1,0 +1,41 @@
+{% extends 'authentication/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row d-flex justify-content-center align-items-center">
+            <form role="form" class="ml-2 mr-2 col-lg-4" action="{% url "login_view" %}" method="post">
+                {% csrf_token %}
+                <h4 class="text-lg-center text-center">Log in into your account</h4>
+                <hr id="line" />
+
+                {% if not login_successful %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Login error: </strong> {{ error_message }}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">Username&nbsp;
+                    <br>
+                    <input class="form-control" name="username" id="username" placeholder="Username" type="text" required>
+                </div>
+                <div class="form-group">Password&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+                    <br>
+                    <input class="form-control" name="password" id="password" placeholder="Password" type="password" required>
+                </div>
+                <div class="col d-lg-flex d-flex align-items-center justify-content-center" style="padding-left: 0;
+                    padding-right: 0;">
+                    <button id="submitButton" type="submit" class="btn btn-primary btn-block">Log In</button>
+                </div>
+                {% if next %}
+                    <input type="hidden" name="next" value="{{ next }}">
+                {% endif %}
+                <hr />
+            </form>
+        </div>
+        <div class="row">
+            <div class="col text-center" id="forgot_pass_column">
+                <a href="{% url "password_reset" %}" name="anchor" id="forgot_pass_link">Forgot your password?</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

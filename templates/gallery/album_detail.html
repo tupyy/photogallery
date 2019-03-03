@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static from staticfiles %}
+
+{% block extrahead %}
+    <link href="{% static 'photo_gallery/css/album_detail.css' %}" rel="stylesheet">
+    <link href="{% static 'photo_gallery/css/gallery.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}{{ block.super }} - {{ album.display_name }} - {{ album.date }}{% endblock %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+    <div class="album_title">
+        <h3>{{ album.display_name }} - {{ album.date }}</h3>
+    </div>
+
+    <div class="container">
+        <div class="photo_nav">
+            {# next_album has the "previous" class and vice-versa because album ordering is reversed #}
+            {% if next_album %}
+                <div class="nav_links">
+                    <a href="{{ next_album.get_absolute_url }}">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                </div>
+            {% else %}
+                <div></div>
+            {% endif %}
+            <div class="nav_links">
+                <a href="{% url 'gallery:year' album.date.year %}" class="up">Inapoi la album</a>
+            </div>
+            {% if previous_album %}
+                <div class="nav_links">
+                    <a href="{{ previous_album.get_absolute_url }}">
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            {% else %}
+                <div></div>
+            {% endif %}
+        </div>
+        <div class="row">
+            {% for photo in photos %}
+                <div class="col-lg-3 col-md-3 col-xs-6 thumb">
+                    <a class="thumbnail" href="{{ photo.get_absolute_url }}">
+                        <img src="{% url 'gallery:photo-resized' preset='thumb' pk=photo.pk %}"
+                             alt="{{ photo }}">
+                    </a>
+                </div>
+            {% empty %}
+                <p>{% trans "Sorry, you aren't authorized to view any photos in this album." %}</p>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

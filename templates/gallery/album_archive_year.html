@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static from staticfiles %}
+
+{% block extrahead %}
+    <link href="{% static 'photo_gallery/css/album_archive_year.css' %}" rel="stylesheet">
+    <link href="{% static 'photo_gallery/css/gallery.css' %}" rel="stylesheet">
+    <link href="{% static 'photo_gallery/css/card.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+{% endblock %}
+
+{% block title %}{{ block.super }} - {{ title }}{% endblock %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+
+    {% if user.is_authenticated and not perms.gallery.view %}
+        <div class="album_filter">
+            {% if show_public %}
+                <a href="?hide_public">{% trans "Hide public albums" %}</a>
+            {% else %}
+                <a href="?show_public">{% trans "Show public albums" %}</a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+
+    <div >
+        {# next_year has the "previous" class and vice-versa because album ordering is reversed #}
+
+        {#        <a href="{% url 'gallery:index' %}" class="up"><i class="fas fa-home"></i></a>#}
+
+    </div>
+
+    <div class="album text-muted">
+        <div class="container">
+            <div class="photo_nav">
+                {% if next_year %}
+                    <a href="{% url 'gallery:year' next_year.year %}">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                {% else %}
+                    <div></div>
+                {% endif %}
+                <div class="album_title">
+                    <h2>{{ year.year }}</h2>
+                </div>
+                {% if previous_year %}
+                    <a href="{% url 'gallery:year' previous_year.year %}">
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                {% else %}
+                    <div></div>
+                {% endif %}
+            </div>
+            <div class="row">
+                {% for album in album_list %}
+                    {% include 'gallery/card_detail.html' %}
+                {% empty %}
+                    <p>{% trans "Sorry, you aren't authorized to view any photos in this album." %}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% if is_paginated %}
+        <div class="album_page_list">
+            {% if page_obj.has_previous %}
+                <a href="{% url 'gallery:year' year.year %}?page={{ page_obj.previous_page_number }}">&larr;</a>
+            {% endif %}
+            {{ page_obj.number }} / {{ paginator.num_pages }}
+            {% if page_obj.has_next %}
+                <a href="{% url 'gallery:year' year.year %}?page={{ page_obj.next_page_number }}">&rarr;</a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+{% endblock %}

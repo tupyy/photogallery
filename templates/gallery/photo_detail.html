@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+
+{% block extrahead %}
+    <link href="{% static 'photo_gallery/css/photo_detail.css' %}" rel="stylesheet">
+    <link href="{% static 'photo_gallery/css/gallery.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}{{ block.super }} - {{ photo.album.display_name }} - {{ photo.display_name }}{% endblock %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+    <div class="photo_title">
+        <h3>{{ photo.display_name }}</h3>
+    </div>
+
+    <div class="photo_detail">
+        <div class="photo_block">
+            <div class="photo_nav">
+                {% if previous_photo %}
+                    <a href="{{ previous_photo.get_absolute_url }}"><i class="fas fa-arrow-left"></i></a>
+                {% else %}
+                    <div></div>
+                {% endif %}
+                <a href="{{ photo.album.get_absolute_url }}" class="up">Inapoi la album</a>
+                {% if next_photo %}
+                    <a href="{{ next_photo.get_absolute_url }}"><i class="fas fa-arrow-right"></i></a>
+                {% else %}
+                    <div></div>
+                {% endif %}
+            </div>
+            <a href="{% url 'gallery:photo-original' pk=photo.pk %}"><img
+                    src="{% url 'gallery:photo-resized' preset='standard' pk=photo.pk %}" alt="{{ photo }}"></a>
+        </div>
+    </div>
+{% endblock %}
