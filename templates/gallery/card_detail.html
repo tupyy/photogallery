@@ -23,7 +23,7 @@
             </div>
             {% if request.user.is_superuser %}
                 <div class="action-btn">
-                    <a href="" class="btn btn-link">Upload</a>
+                    <a href="{% url 'photo-upload' %}" class="btn btn-link">Upload</a>
                 </div>
             {% endif %}
         </div>

@@ -5,6 +5,7 @@ from django.conf.urls import include, url
 from django.urls import path
 
 from PhotoGallery import settings
+from PhotoGallery.views.upload_photo import UploadView
 from authentication.views import login_view, logout_view
 
 from PhotoGallery.views.index import PreviewGalleryIndexView
@@ -19,8 +20,9 @@ urlpatterns_account = [
 ]
 
 urlpatterns = [
-    path(r'', PreviewGalleryIndexView.as_view(), name='index'),
-    path(r'', include('gallery.urls', namespace='gallery')),
+    path('', PreviewGalleryIndexView.as_view(), name='index'),
+    path('upload', UploadView.as_view(), name='photo-upload'),
+    path('', include('gallery.urls', namespace='gallery')),
 ]
 
 urlpatterns += urlpatterns_account
