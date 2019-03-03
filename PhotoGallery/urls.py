@@ -2,11 +2,12 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 from django.conf.urls import include, url
+from django.urls import path
 
 from PhotoGallery import settings
 from authentication.views import login_view, logout_view
 
-from . import views
+from PhotoGallery.views.index import PreviewGalleryIndexView
 
 """
     Url patterns for account
@@ -18,8 +19,8 @@ urlpatterns_account = [
 ]
 
 urlpatterns = [
-    url(r'^$', views.PreviewGalleryIndexView.as_view(), name='index'),
-    url(r'^', include('gallery.urls', namespace='gallery')),
+    path(r'', PreviewGalleryIndexView.as_view(), name='index'),
+    path(r'', include('gallery.urls', namespace='gallery')),
 ]
 
 urlpatterns += urlpatterns_account
