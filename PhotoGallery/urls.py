@@ -24,5 +24,5 @@ urlpatterns = [
 
 urlpatterns += urlpatterns_account
 
-if settings.ENV == 'development':
+if settings.ENV == 'development' or settings.ENV == 'development_aws':
     urlpatterns += [url(r'^admin/', admin.site.urls)]
