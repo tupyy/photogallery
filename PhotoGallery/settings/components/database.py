@@ -1,7 +1,5 @@
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-import os
-from PhotoGallery.settings.components import BASE_DIR
 
 DATABASES_DEV = {
     'default': {
