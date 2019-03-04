@@ -5,7 +5,7 @@ from django.conf.urls import include, url
 from django.urls import path
 
 from PhotoGallery import settings
-from PhotoGallery.views.upload_photo import UploadView
+from PhotoGallery.views.upload_photo import UploadView, SignS3View
 from authentication.views import login_view, logout_view
 
 from PhotoGallery.views.index import PreviewGalleryIndexView
@@ -22,7 +22,7 @@ urlpatterns_account = [
 urlpatterns = [
     path('', PreviewGalleryIndexView.as_view(), name='index'),
     path('upload', UploadView.as_view(), name='photo-upload'),
-    path('s3_sign', UploadView.sign_s3, name='s3-sign'),
+    path('sign-s3', SignS3View.as_view(), name='sign-s3'),
     path('', include('gallery.urls', namespace='gallery')),
 ]
 
