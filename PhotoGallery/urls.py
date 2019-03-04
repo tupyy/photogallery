@@ -22,6 +22,7 @@ urlpatterns_account = [
 urlpatterns = [
     path('', PreviewGalleryIndexView.as_view(), name='index'),
     path('upload', UploadView.as_view(), name='photo-upload'),
+    path('s3_sign', UploadView.sign_s3, name='s3-sign'),
     path('', include('gallery.urls', namespace='gallery')),
 ]
 
