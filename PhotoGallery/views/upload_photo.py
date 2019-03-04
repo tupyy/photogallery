@@ -1,6 +1,6 @@
 import os
 import boto3
-from django.conf import settings
+from PhotoGallery import settings
 
 from django.http import JsonResponse
 from django.views import View
@@ -14,7 +14,7 @@ class UploadView(TemplateView):
 class SignS3View(View):
     def get(self, *args, **kwargs):
         # Load necessary information into the application
-        S3_BUCKET = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+        S3_BUCKET = "cosmin-photos-test"
 
         # Load required data from the request
         file_name = self.request.GET.get('file-name')
@@ -27,11 +27,12 @@ class SignS3View(View):
         presigned_post = s3.generate_presigned_post(
             Bucket=S3_BUCKET,
             Key=file_name,
-            Fields={"acl": "bucket-owner-full-control", "Content-Type": file_type},
+            Fields={"acl": "public-read",
+                    "Content-Type": file_type},
             Conditions=[
-                {"acl": "bucket-owner-full-control"},
+                {"acl": "public-read"},
                 {"Content-Type": file_type},
-                {"Access-Control-Allow-Origin": "*"}
+                ["content-length-range", 10, 100]
             ],
             ExpiresIn=3600
         )

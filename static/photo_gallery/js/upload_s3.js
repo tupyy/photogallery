@@ -3,8 +3,6 @@
    */
 function uploadFile(file, s3Data, url) {
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', s3Data.url);
-    xhr.setRequestHeader('x-amz-acl', 'public-read');
     const postData = new FormData();
     for (key in s3Data.fields) {
         postData.append(key, s3Data.fields[key]);
@@ -19,6 +17,9 @@ function uploadFile(file, s3Data, url) {
             }
         }
     };
+    xhr.open('PUT', url, true);
+    xhr.setRequestHeader('x-amz-acl', 'public-read');
+    // xhr.setRequestHeader('Access-Control-Allow-Origin','*');
     xhr.send(postData);
 }
 
