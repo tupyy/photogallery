@@ -14,7 +14,7 @@ class UploadView(TemplateView):
 class SignS3View(View):
     def get(self, *args, **kwargs):
         # Load necessary information into the application
-        S3_BUCKET = os.environ.get('S3_BUCKET')
+        S3_BUCKET = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
         # Load required data from the request
         file_name = self.request.GET.get('file-name')
@@ -25,7 +25,7 @@ class SignS3View(View):
 
         # Generate and return the presigned URL
         presigned_post = s3.generate_presigned_post(
-            Bucket=getattr(settings, 'AWS_STORAGE_BUCKET_NAME'),
+            Bucket=S3_BUCKET,
             Key=file_name,
             Fields={"acl": "bucket-owner-full-control", "Content-Type": file_type},
             Conditions=[
@@ -39,5 +39,5 @@ class SignS3View(View):
         # Return the data to the client
         return JsonResponse({
             'data': presigned_post,
-            'url': 'https://%s.s3.amazonaws.com/%s' % (getattr(settings, 'AWS_STORAGE_BUCKET_NAME'), file_name)
+            'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
         })
