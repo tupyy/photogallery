@@ -1,12 +1,9 @@
 /*
      Function to carry out the actual POST request to S3 using the signed request from the Python app.
    */
-function uploadFile(file, s3Data, url) {
+function uploadFile(file, presigned_url) {
     const xhr = new XMLHttpRequest();
     const postData = new FormData();
-    for (key in s3Data.fields) {
-        postData.append(key, s3Data.fields[key]);
-    }
     postData.append('file', file);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
@@ -17,9 +14,8 @@ function uploadFile(file, s3Data, url) {
             }
         }
     };
-    xhr.open('PUT', url, true);
-    xhr.setRequestHeader('x-amz-acl', 'public-read');
-    // xhr.setRequestHeader('Access-Control-Allow-Origin','*');
+    xhr.open('PUT', presigned_url, true);
+    xhr.setRequestHeader('Content-type', file.type);
     xhr.send(postData);
 }
 
@@ -35,7 +31,7 @@ function getSignedRequest(file) {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
-                uploadFile(file, response.data, response.url);
+                uploadFile(file, response.presigned_url);
             } else {
                 alert('Could not get signed URL.');
             }
@@ -50,9 +46,24 @@ function getSignedRequest(file) {
 */
 function initUpload() {
     const files = document.getElementById('file-input').files;
-    const file = files[0];
-    if (!file) {
-        return alert('No file selected.');
+    if (files) {
+        let parent = $('#files-list-container > ul');
+        for (let i = 0; i < files.length; i++) {
+            parent.append(
+                "<li>" +
+                files[i].name +
+                "<button type=\"button\" class=\"btn btn-danger\ delete-item-button\">Delete</button>" +
+                "</li>"
+            );
+            $(document).on('click', ".delete-item-button", function (event) {
+                alert(event.target.id);
+            });
+        }
     }
-    getSignedRequest(file);
+}
+
+function removeFromList(event) {
+    // const files = Array.from(document.getElementById('file-input').files);
+    // files.splice(i, 1);
+    event.target.remove();
 }

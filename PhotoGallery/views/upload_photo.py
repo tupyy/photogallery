@@ -1,5 +1,7 @@
 import os
 import boto3
+from botocore.config import Config
+
 from PhotoGallery import settings
 
 from django.http import JsonResponse
@@ -21,24 +23,18 @@ class SignS3View(View):
         file_type = self.request.GET.get('file-type')
 
         # Initialise the S3 client
-        s3 = boto3.client('s3')
+        s3 = boto3.client('s3', config=Config(signature_version='s3v4'))
 
-        # Generate and return the presigned URL
-        presigned_post = s3.generate_presigned_post(
-            Bucket=S3_BUCKET,
-            Key=file_name,
-            Fields={"acl": "public-read",
-                    "Content-Type": file_type},
-            Conditions=[
-                {"acl": "public-read"},
-                {"Content-Type": file_type},
-                ["content-length-range", 10, 100]
-            ],
-            ExpiresIn=3600
+        presigned_url = s3.generate_presigned_url(
+            ClientMethod='put_object',
+            Params={
+                'Bucket': S3_BUCKET,
+                'Key': file_name,
+                'ContentType': file_type
+            }
         )
 
         # Return the data to the client
         return JsonResponse({
-            'data': presigned_post,
-            'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
+            'presigned_url': presigned_url
         })
