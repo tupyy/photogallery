@@ -4,7 +4,6 @@
 {% block extrahead %}
     <link href="{% static "photo_gallery/css/upload.css" %}" rel="stylesheet">
 {% endblock %}
-
 {% block content %}
     {% include 'navbar.html' %}
     <div class="row">
@@ -12,7 +11,6 @@
             <form action="" method="POST" enctype="multipart/form-data">
                 <div class="form-group col-lg-7">
                     <span class="btn btn-success fileinput-button">
-
                         <i class="glyphicon glyphicon-plus"></i>
                         <span>Add files...</span>
                         <input type="file" name="files[]" multiple="" id="file-input">
@@ -30,6 +28,11 @@
                         <span>Delete</span>
                     </button>
                 </div>
+                <div id="files-list-container">
+                    <ul class="files-list">
+
+                    </ul>
+                </div>
             </form>
         </div>
     </div>
@@ -41,4 +44,3 @@
         })();
     </script>
 {% endblock %}
-
