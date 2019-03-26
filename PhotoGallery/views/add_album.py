@@ -9,4 +9,10 @@ class AddAlbumView(FormView):
     success_url = '/'
 
     def form_valid(self, form):
-        return super().form_valid()
+        # TODO create album
+        return super().form_valid(form)
+
+    def get(self, request, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['submit_label'] = "Add"
+        return self.render_to_response(context)
