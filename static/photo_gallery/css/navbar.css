@@ -1,6 +1,6 @@
 .nav-user {
     color: white;
-    display: flex;
+    display: flex !important;
     align-items: center;
     margin-right: 1rem;
 }
