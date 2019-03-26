@@ -4,12 +4,12 @@
 {% block extrahead %}
     <link href="{% static 'photo_gallery/css/photo_detail.css' %}" rel="stylesheet">
     <link href="{% static 'photo_gallery/css/gallery.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static  "photo_gallery/css/navbar.css"%}>
 {% endblock %}
 
 {% block title %}{{ block.super }} - {{ photo.album.display_name }} - {{ photo.display_name }}{% endblock %}
 
 {% block content %}
-    {% include 'navbar.html' %}
     <div class="photo_title">
         <h3>{{ photo.display_name }}</h3>
     </div>
