@@ -1,5 +1,5 @@
 from django.views.generic import FormView
-from gallery.models import Album
+from gallery.models import Album, AlbumAccessPolicy
 
 from PhotoGallery.forms.add_album_form import AddAlbumForm
 
@@ -7,14 +7,14 @@ from PhotoGallery.forms.add_album_form import AddAlbumForm
 class AddAlbumCommonMixin(object):
 
     def album_exists(self, dirpath):
-        _album = Album.objects.filter(dirpath__exact=dirpath)
-        return len(_album) > 0
+        _albums = Album.objects.filter(dirpath__exact=dirpath)
+        return len(_albums) > 0
 
     def create_album(self, form):
-        Album.objects.create(category=form.cleaned_data['album_category'],
-                             dirpath=self.get_album_path(form),
-                             date=form.cleaned_data['album_date'],
-                             name=form.cleaned_data['album_name'])
+        return Album.objects.create(category=form.cleaned_data['album_category'],
+                                    dirpath=self.get_album_path(form),
+                                    date=form.cleaned_data['album_date'],
+                                    name=form.cleaned_data['album_name'])
 
     def get_album_path(self, form):
         return "{}\\{}_{}_{}".format(form.cleaned_data['album_date'].year,
@@ -38,7 +38,13 @@ class AddAlbumView(AddAlbumCommonMixin, FormView):
 
     def form_valid(self, form):
         if not self.album_exists(self.get_album_path(form)):
-            self.create_album(form)
+            _album = self.create_album(form)
+
+            # add access policy for the created album
+            access_policy = AlbumAccessPolicy.objects.create(album=_album)
+            access_policy.users.add(self.request.user)
+            for group in self.request.user.groups.all():
+                access_policy.groups.add(group)
         else:
             context = self.get_context_data()
             context['form_error'] = "Album exists: {}".format(form.cleaned_data['album_name'])
