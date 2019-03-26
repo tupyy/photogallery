@@ -27,6 +27,17 @@
     color: white;
 }
 
+.navbar-link {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-link:hover
+{
+    text-decoration: none;
+    color: grey;
+}
+
 /*
     Mobile
 */
