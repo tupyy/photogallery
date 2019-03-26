@@ -1,8 +1,14 @@
 {% load i18n %}
+{% load static %}
 <div class="card">
         <a href="{{ album.get_absolute_url }}" class="custom-card">
-            <img src="{% url 'gallery:photo-resized' preset='thumb' pk=album.preview.0.pk %}"
-                 class="img-fluid">
+            {% if album.preview.0.pk %}
+                <img src="{% url 'gallery:photo-resized' preset='thumb' pk=album.preview.0.pk %}"
+                     class="img-fluid">
+            {% else %}
+                <img src="{% static 'photo_gallery/img/image_not_available.png' %}"
+                     class="img-fluid image_na">
+            {% endif %}
         </a>
         <div class="card-body">
             <span class="card_date">
