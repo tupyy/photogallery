@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
         <link rel="stylesheet" href="{% static  "photo_gallery/css/navbar.css"%}">
         <link rel="stylesheet" href="{% static "bootstrap/css/bootstrap.css" %}">
+        <link href="{% static 'photo_gallery/css/base.css' %}" rel="stylesheet">
         <title>{% block title %}{% endblock %}</title>
         {% block extrahead %}{% endblock %}
     </head>
@@ -19,6 +20,12 @@
         {% include 'navbar.html' %}
     {% endblock %}
     {% block content %}{% endblock %}
+    <footer>
+        <div class="container">
+            <p>© 2018 Copyright Cosmin Tupangiu</p>
+            <p></p>
+        </div>
+    </footer>
 </body>
     <script src="{% static "jquery/jquery-3.3.1.min.js" %}"></script>
     <script src="{% static "bootstrap/js/bootstrap.js" %}"></script>

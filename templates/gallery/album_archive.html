@@ -3,7 +3,6 @@
 {% load static from staticfiles %}
 
 {% block extrahead %}
-    <link href="{% static 'photo_gallery/css/album.css' %}" rel="stylesheet">
     <link href="{% static 'photo_gallery/css/gallery.css' %}" rel="stylesheet">
     <link href="{% static 'photo_gallery/css/card.css' %}" rel="stylesheet">
     <link href="{% static 'photo_gallery/css/card_thumb.css' %}" rel="stylesheet">
@@ -54,12 +53,5 @@
             {% endif %}
         </div>
     {% endif %}
-
-    <footer>
-        <div class="container">
-            <p>© 2018 Copyright Cosmin Tupangiu</p>
-            <p></p>
-        </div>
-    </footer>
 
 {% endblock %}
