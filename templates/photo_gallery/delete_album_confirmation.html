@@ -1,0 +1,36 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block extrahead %}
+    <link href="{% static "photo_gallery/css/form.css" %}" rel="stylesheet">
+    <link href="{% static "photo_gallery/css/album/album_common.css" %}" rel="stylesheet">
+    <link href="{% static "photo_gallery/css/album/album_delete.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="container form-wrapper col-md-4 col-sm-4 col-lg-4 col-xl-4 col-xs-12">
+        <form action="{% url "delete_album_view" object.id %}" method="post">
+            {% csrf_token %}
+            <div class="image-container">
+                {% if album.preview.0.pk %}
+                <img src="{% url 'gallery:photo-resized' preset='thumb' pk=album.preview.0.pk %}"
+                     class="img-fluid">
+                {% else %}
+                    <img src="{% static 'photo_gallery/img/image_not_available.png' %}"
+                         class="img-fluid image_na">
+                {% endif %}
+            </div>
+            <span class="delete-confirmation">
+                <p>Are you sure you want to delete "{{ object.display_name }}"?</p>
+            </span>
+            <div class="row submit-row">
+                {% block submit %}
+                    <span>
+                        <button class="btn btn-primary" type="submit">Confirm</button>
+                        <a class="btn btn-danger" type="submit" href="{% url 'index' %}">Close</a>
+                    </span>
+                {% endblock submit %}
+            </div>
+        </form>
+    </div>
+{% endblock %}

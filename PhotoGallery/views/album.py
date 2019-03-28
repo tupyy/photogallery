@@ -1,7 +1,8 @@
-from django.views.generic import FormView
+from django.urls import reverse_lazy
+from django.views.generic import FormView, DeleteView
 from gallery.models import Album, AlbumAccessPolicy
 
-from PhotoGallery.forms.add_album_form import AddAlbumForm
+from PhotoGallery.forms.album_forms import AddAlbumForm
 
 
 class AddAlbumCommonMixin(object):
@@ -50,3 +51,13 @@ class AddAlbumView(AddAlbumCommonMixin, FormView):
             context['form_error'] = "Album exists: {}".format(form.cleaned_data['album_name'])
             return self.render_to_response(context)
         return super().form_valid(form)
+
+
+class DeleteAlbumView(DeleteView):
+    model = Album
+    success_url = reverse_lazy('index')
+    template_name = 'photo_gallery/delete_album_confirmation.html'
+
+    def post(self, request, *args, **kwargs):
+        # TODO delete all the files in the AWS bucket
+        return super().post(request, *args, **kwargs)
