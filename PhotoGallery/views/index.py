@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
-from django.shortcuts import redirect, render_to_response
+from django.shortcuts import redirect
 from django.urls import reverse
 from gallery.views import GalleryIndexView
 
