@@ -15,3 +15,5 @@ class AddAlbumForm(forms.Form):
                                                                    "placeholder": "Enter category"}),
                                      label='Album category',
                                      max_length=100, initial='Photos')
+
+
