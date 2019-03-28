@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from django.utils.http import is_safe_url
 from django.contrib.auth import authenticate, login, logout
@@ -13,7 +14,7 @@ def login_view(request):
     if request.method == 'GET':
         return render(request, 'authentication/login.html',
                       {'login_successful': True,
-                       'next': request.GET['next']
+                       'next': request.GET.get('next', reverse('index'))
                        })
 
     elif request.method == 'POST':
