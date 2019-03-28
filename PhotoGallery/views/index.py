@@ -19,7 +19,6 @@ class PreviewCommonMixin(object):
 class PreviewGalleryIndexView(PreviewCommonMixin, GalleryIndexView):
 
     def get_context_data(self, **kwargs):
-
         context = super(PreviewGalleryIndexView, self).get_context_data(**kwargs)
         albums = context['object_list']
 
@@ -39,4 +38,4 @@ class PreviewGalleryIndexView(PreviewCommonMixin, GalleryIndexView):
     def get(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated:
             return redirect(reverse('login_view'), args=(reverse('index')))
-        return render_to_response(self.get_context_data(**kwargs))
+        return super().get(request, *args, **kwargs)
