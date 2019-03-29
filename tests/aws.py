@@ -1,10 +1,9 @@
 import os
 import tempfile
 import unittest
-
 from binascii import hexlify
 
-from PhotoGallery.aws.aws import AWSBase
+from PhotoGallery.aws.aws import AWSCommonMixin
 
 
 class AWSTests(unittest.TestCase):
@@ -14,7 +13,7 @@ class AWSTests(unittest.TestCase):
         self.bucket_name = 'cosmin-test-{}'.format(hexlify(os.urandom(24)).decode('utf-8')[6:])
         os.environ['S3_BUCKET_NAME'] = self.bucket_name
 
-        self.aws = AWSBase()
+        self.aws = AWSCommonMixin()
         self.bucket = self.aws.s3.Bucket(self.bucket_name)
         response = self.bucket.create(ACL='private',
                                       CreateBucketConfiguration={
@@ -23,10 +22,10 @@ class AWSTests(unittest.TestCase):
         if response.get('Location') is None:
             raise ValueError('Cannot create test bucket')
 
-    def tearDown(self) -> None:
-        for key in self.bucket.objects.all():
-            key.delete()
-        self.bucket.delete()
+    # def tearDown(self) -> None:
+    #     for key in self.bucket.objects.all():
+    #         key.delete()
+    #     self.bucket.delete()
 
     def test_list_files(self):
         file = self.create_temporary_file('testfile.txt')
@@ -43,7 +42,20 @@ class AWSTests(unittest.TestCase):
         self.assertEqual(len(files), 1)
         self.assertEqual(files[0], os.path.basename(file))
 
-        response, _ = self.aws.delete_objects(['test_folder/testfile.txt', 'test_folder/bb'])
+        response, _ = self.aws.delete_objects(['test_folder/testfile.txt'])
+        self.assertTrue(response)
+        files = self.aws.get_objects('test_folder')
+        self.assertEqual(len(files), 0)
+
+    def test_delete_album(self):
+        file = self.create_temporary_file('testfile.txt')
+        self.aws.upload_file('test_folder', file)
+        files = self.aws.get_objects('test_folder')
+
+        self.assertEqual(len(files), 1)
+        self.assertEqual(files[0], os.path.basename(file))
+
+        response, _ = self.aws.delete_album('test_folder')
         self.assertTrue(response)
         files = self.aws.get_objects('test_folder')
         self.assertEqual(len(files), 0)

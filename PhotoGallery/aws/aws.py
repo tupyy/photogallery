@@ -61,9 +61,12 @@ class AWSBase(object):
             raise AttributeError('File not exits.')
 
         filename = os.path.basename(file)
-        key = key[:-1] if key.endswith('/') else key
-        key = key + '/' + filename
+        key = self.clean_key(key) + '/' + filename
         self.s3.Object(self.get_bucket().name, key).upload_file(file)
+
+    def clean_key(self, key):
+        """Remove the / at the end if any"""
+        return key[:-1] if key.endswith('/') else key
 
 
 class AWSCommonMixin(AWSBase):
@@ -73,9 +76,10 @@ class AWSCommonMixin(AWSBase):
         super().__init__()
 
     def delete_album(self, album):
-        files_to_delete = self.get_objects(album)
-        files_to_delete.append(album)
-        return self.delete_objects(files_to_delete)
+        files = self.get_objects(album)
+        keys = [self.clean_key(album) + '/' + file for file in files]
+        keys.append(album)
+        return self.delete_objects(keys)
 
     def delete_photo(self, album, photo):
         return self.delete_objects(album + '/' + photo)
