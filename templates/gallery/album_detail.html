@@ -3,14 +3,13 @@
 {% load static from staticfiles %}
 
 {% block extrahead %}
-    <link href="{% static 'photo_gallery/css/album_detail.css' %}" rel="stylesheet">
+    <link href="{% static 'photo_gallery/css/album/album_detail.css' %}" rel="stylesheet">
     <link href="{% static 'photo_gallery/css/gallery.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block title %}{{ block.super }} - {{ album.display_name }} - {{ album.date }}{% endblock %}
 
 {% block content %}
-    {% include 'navbar.html' %}
     <div class="album_title">
         <h3>{{ album.display_name }} - {{ album.date }}</h3>
     </div>
