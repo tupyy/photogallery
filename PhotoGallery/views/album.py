@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import FormView, DeleteView
 from gallery.models import Album, AlbumAccessPolicy
+from gallery.storages import get_storage
 
 from PhotoGallery.forms.album_forms import AddAlbumForm
 
@@ -59,8 +60,13 @@ class DeleteAlbumView(DeleteView):
     template_name = 'photo_gallery/delete_album_confirmation.html'
 
     def post(self, request, *args, **kwargs):
-        from PhotoGallery.aws.aws import AWSCommon
-        album = self.get_object().dirpath
-        aws = AWSCommon()
-        aws.delete_album(album)
+        photo_storage = get_storage('photo')
+        _, files = photo_storage.listdir(self.get_object().dirpath)
+        for file in files:
+            if file is not '.':
+                photo_storage.delete(self.get_object().dirpath + "/" + file)
+        photo_storage.delete(self.get_object().dirpath + '/')
+
+        # delete caches
+        # TODO implement delete caches
         return super().post(request, *args, **kwargs)
