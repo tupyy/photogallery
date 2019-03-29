@@ -39,8 +39,8 @@ class AWSBase(object):
                 else:
                     delete_dict.get('Objects').append({'Key': _object})
         response = self.get_bucket().delete_objects(Delete=delete_dict,
-                                                   RequestPayer='requester')
-        return self._process_delete_response(response)
+                                                    RequestPayer='requester')
+        return 'Error' not in response, response.get('Error', None)
 
     def get_objects(self, key):
         """Return a list with all the objects under the key
@@ -64,14 +64,6 @@ class AWSBase(object):
         key = key[:-1] if key.endswith('/') else key
         key = key + '/' + filename
         self.s3.Object(self.get_bucket().name, key).upload_file(file)
-
-    def _process_delete_response(self, delete_response):
-        """ Return False and the error field if found
-            otherwise return True, None
-        """
-        if 'Error' in delete_response:
-            return False, delete_response.get('Error')
-        return True, None
 
 
 class AWSCommonMixin(AWSBase):
