@@ -19,13 +19,15 @@
     {% block navbar %}
         {% include 'navbar.html' %}
     {% endblock %}
-    {% block content %}{% endblock %}
-    <footer>
-        <div class="container">
-            <p>© 2018 Copyright Cosmin Tupangiu</p>
-            <p></p>
-        </div>
-    </footer>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+{#    <footer>#}
+{#        <div class="container">#}
+{#            <p>© 2018 Copyright Cosmin Tupangiu</p>#}
+{#            <p></p>#}
+{#        </div>#}
+{#    </footer>#}
 </body>
     <script src="{% static "jquery/jquery-3.3.1.min.js" %}"></script>
     <script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
