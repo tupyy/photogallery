@@ -69,7 +69,7 @@ class AWSBase(object):
         return key[:-1] if key.endswith('/') else key
 
 
-class AWSCommonMixin(AWSBase):
+class AWSCommon(AWSBase):
     """Class to provide photos and albums operation in a bucket"""
 
     def __init__(self):

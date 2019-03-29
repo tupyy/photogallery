@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from binascii import hexlify
 
-from PhotoGallery.aws.aws import AWSCommonMixin
+from PhotoGallery.aws.aws import AWSCommon
 
 
 class AWSTests(unittest.TestCase):
@@ -13,7 +13,7 @@ class AWSTests(unittest.TestCase):
         self.bucket_name = 'cosmin-test-{}'.format(hexlify(os.urandom(24)).decode('utf-8')[6:])
         os.environ['S3_BUCKET_NAME'] = self.bucket_name
 
-        self.aws = AWSCommonMixin()
+        self.aws = AWSCommon()
         self.bucket = self.aws.s3.Bucket(self.bucket_name)
         response = self.bucket.create(ACL='private',
                                       CreateBucketConfiguration={
@@ -22,10 +22,10 @@ class AWSTests(unittest.TestCase):
         if response.get('Location') is None:
             raise ValueError('Cannot create test bucket')
 
-    # def tearDown(self) -> None:
-    #     for key in self.bucket.objects.all():
-    #         key.delete()
-    #     self.bucket.delete()
+    def tearDown(self) -> None:
+        for key in self.bucket.objects.all():
+            key.delete()
+        self.bucket.delete()
 
     def test_list_files(self):
         file = self.create_temporary_file('testfile.txt')
