@@ -9,11 +9,8 @@ from gallery.views import GalleryIndexView
 class PreviewCommonMixin(object):
     """ Provide can_add_album can_add_photo """
 
-    def can_add_album(self):
-        return self.request.user.has_perm('gallery.add_album')
-
-    def can_add_photo(self):
-        return self.request.user.has_perm('gallery.add_photo')
+    def get_user_permissions(self):
+        return self.request.user._perm_cache
 
 
 class PreviewGalleryIndexView(PreviewCommonMixin, GalleryIndexView):
@@ -22,8 +19,7 @@ class PreviewGalleryIndexView(PreviewCommonMixin, GalleryIndexView):
         context = super(PreviewGalleryIndexView, self).get_context_data(**kwargs)
         albums = context['object_list']
 
-        if self.can_add_album():
-            context['can_add_album'] = True
+        context['perms'] = self.get_user_permissions()
 
         preview_year = {}
         albums_count = getattr(settings, 'GALLERY_YEAR_PREVIEW', 5)

@@ -27,12 +27,14 @@
                 <a href="{{ album.get_absolute_url }}" class="btn btn-link btn-block">Acceseaza
                     album</a>
             </div>
-            {% if request.user.is_superuser %}
+
                 <div class="action-btn">
                     <a href="{% url 'photo-upload' %}" class="btn btn-link">
                         <i class="fa fa-upload"></i>
                     </a>
                 </div>
+
+            {% if perls.gallery.delete_album %}
                 <div class="action-btn">
                     <a href="{% url 'delete_album_view' album.id %}" class="btn btn-link">
                         <i class="fa fa-trash"></i>

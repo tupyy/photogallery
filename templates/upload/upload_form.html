@@ -8,39 +8,26 @@
     {% include 'navbar.html' %}
     <div class="row">
         <div class="col col-lg-3">
-            <form action="" method="POST" enctype="multipart/form-data">
-                <div class="form-group col-lg-7">
-                    <span class="btn btn-success fileinput-button">
-                        <i class="glyphicon glyphicon-plus"></i>
-                        <span>Add files...</span>
-                        <input type="file" name="files[]" multiple="" id="file-input">
-                    </span>
-                    <button type="submit" class="btn btn-primary start">
-                        <i class="glyphicon glyphicon-upload"></i>
-                        <span>Start upload</span>
-                    </button>
-                    <button type="reset" class="btn btn-warning cancel">
-                        <i class="glyphicon glyphicon-ban-circle"></i>
-                        <span>Cancel upload</span>
-                    </button>
-                    <button type="button" class="btn btn-danger delete">
-                        <i class="glyphicon glyphicon-trash"></i>
-                        <span>Delete</span>
-                    </button>
-                </div>
-                <div id="files-list-container">
-                    <ul class="files-list">
-
-                    </ul>
-                </div>
-            </form>
+            <div id="mainForm">
+                {% csrf_token %}
+                <span class="btn btn-success fileinput-button">
+                <span>Add files...</span>
+                    <input type="file" name="files[]" multiple>
+                </span>
+                <button class="btn btn-primary" id="submitButton">Upload</button>
+                <button class="btn btn-danger" id="abortButton">Stop</button>
+                <div class="file-list-container"></div>
+            </div>
         </div>
     </div>
 
-    <script src="{% static 'photo_gallery/js/upload_s3.js' %}"></script>
-    <script>
-        (() => {
-            document.getElementById('file-input').onchange = initUpload;
-        })();
-    </script>
+
+    <script src="{% static "jquery/jquery-3.3.1.min.js" %}"></script>
+    <script src="{% static "jquery/jquery-ui.js" %}"></script>
+    <script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
+    <script src="{% static 'photo_gallery/js/file-entry-skin.js' %}"></script>
+    <script src="{% static 'photo_gallery/js/file-entry-ui.js' %}"></script>
+    <script src="{% static 'photo_gallery/js/mainForm.js' %}"></script>
+    <script src="{% static 'photo_gallery/js/main.js' %}"></script>
+
 {% endblock %}
