@@ -28,9 +28,9 @@ class AWSBase(object):
             raise AttributeError('Bucket \'{}\' don\'t exists'.format(bucket_name))
         return self.s3.Bucket(bucket_name)
 
-    def delete_objects(self, objects, quit_mode=False):
+    def delete_objects(self, objects, quiet_mode=False):
         delete_dict = {'Objects': [],
-                       'Quiet': quit_mode}
+                       'Quiet': quiet_mode}
         if isinstance(objects, list):
             for _object in objects:
                 if isinstance(_object, dict):
