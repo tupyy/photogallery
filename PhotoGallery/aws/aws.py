@@ -38,8 +38,9 @@ class AWSBase(object):
                                                        'VersionId': _object.versionId})
                 else:
                     delete_dict.get('Objects').append({'Key': _object})
-        return self.get_bucket().delete_objects(Delete=delete_dict,
-                                                RequestPayer='requester')
+        response = self.get_bucket().delete_objects(Delete=delete_dict,
+                                                   RequestPayer='requester')
+        return self._process_delete_response(response)
 
     def get_objects(self, key):
         """Return a list with all the objects under the key
@@ -64,6 +65,14 @@ class AWSBase(object):
         key = key + '/' + filename
         self.s3.Object(self.get_bucket().name, key).upload_file(file)
 
+    def _process_delete_response(self, delete_response):
+        """ Return False and the error field if found
+            otherwise return True, None
+        """
+        if 'Error' in delete_response:
+            return False, delete_response.get('Error')
+        return True, None
+
 
 class AWSCommonMixin(AWSBase):
     """Class to provide photos and albums operation in a bucket"""
@@ -71,7 +80,10 @@ class AWSCommonMixin(AWSBase):
     def __init__(self):
         super().__init__()
 
-    def delete_album(self, album_name):
-        files_to_delete = self.get_objects(album_name)
-        files_to_delete.append(album_name)
-        response = self.delete_objects(files_to_delete)
+    def delete_album(self, album):
+        files_to_delete = self.get_objects(album)
+        files_to_delete.append(album)
+        return self.delete_objects(files_to_delete)
+
+    def delete_photo(self, album, photo):
+        return self.delete_objects(album + '/' + photo)

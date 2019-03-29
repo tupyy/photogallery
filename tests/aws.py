@@ -43,7 +43,8 @@ class AWSTests(unittest.TestCase):
         self.assertEqual(len(files), 1)
         self.assertEqual(files[0], os.path.basename(file))
 
-        self.aws.delete_objects(['test_folder/testfile.txt'])
+        response, _ = self.aws.delete_objects(['test_folder/testfile.txt', 'test_folder/bb'])
+        self.assertTrue(response)
         files = self.aws.get_objects('test_folder')
         self.assertEqual(len(files), 0)
 
