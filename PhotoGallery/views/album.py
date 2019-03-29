@@ -59,5 +59,8 @@ class DeleteAlbumView(DeleteView):
     template_name = 'photo_gallery/delete_album_confirmation.html'
 
     def post(self, request, *args, **kwargs):
-        # TODO delete all the files in the AWS bucket
+        from PhotoGallery.aws.aws import AWSCommon
+        album = self.get_object().dirpath
+        aws = AWSCommon()
+        aws.delete_album(album)
         return super().post(request, *args, **kwargs)
