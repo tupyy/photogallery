@@ -3,7 +3,8 @@
 {% load static from staticfiles %}
 
 {% block extrahead %}
-    <link href="{% static 'photo_gallery/css/album_archive_year.css' %}" rel="stylesheet">
+    <link href="{% static 'photo_gallery/css/album/album_common.css' %}" rel="stylesheet">
+    <link href="{% static 'photo_gallery/css/album/album_archive_year.css' %}" rel="stylesheet">
     <link href="{% static 'photo_gallery/css/gallery.css' %}" rel="stylesheet">
     <link href="{% static 'photo_gallery/css/card.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
@@ -12,8 +13,6 @@
 {% block title %}{{ block.super }} - {{ title }}{% endblock %}
 
 {% block content %}
-    {% include 'navbar.html' %}
-
     {% if user.is_authenticated and not perms.gallery.view %}
         <div class="album_filter">
             {% if show_public %}
@@ -75,4 +74,8 @@
         </div>
     {% endif %}
 
+{% endblock %}
+{% block scripts %}
+    <script src="{% static "jquery/jquery-3.3.1.min.js" %}"></script>
+    <script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
 {% endblock %}

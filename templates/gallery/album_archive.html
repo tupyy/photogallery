@@ -3,7 +3,7 @@
 {% load static from staticfiles %}
 
 {% block extrahead %}
-    <link href="{% static 'photo_gallery/css/album/album.css' %}" rel="stylesheet">
+    <link href="{% static 'photo_gallery/css/album/album_common.css' %}" rel="stylesheet">
     <link href="{% static 'photo_gallery/css/gallery.css' %}" rel="stylesheet">
     <link href="{% static 'photo_gallery/css/card.css' %}" rel="stylesheet">
     <link href="{% static 'photo_gallery/css/card_thumb.css' %}" rel="stylesheet">
@@ -54,5 +54,8 @@
             {% endif %}
         </div>
     {% endif %}
-
+{% endblock %}
+{% block scripts %}
+    <script src="{% static "jquery/jquery-3.3.1.min.js" %}"></script>
+    <script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
 {% endblock %}
