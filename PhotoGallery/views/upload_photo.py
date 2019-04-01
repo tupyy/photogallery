@@ -3,11 +3,12 @@ import json
 import boto3
 from botocore.config import Config
 from django.http import JsonResponse
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import DetailView
 from gallery.models import Album
 
 
-class AlbumUploadPhotoView(TemplateView):
+class AlbumUploadPhotoView(DetailView):
+    model = Album
     template_name = 'upload/upload_form.html'
 
 
