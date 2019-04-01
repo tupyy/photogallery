@@ -1,4 +1,5 @@
 import json
+import os
 
 import boto3
 from botocore.config import Config
@@ -23,7 +24,7 @@ class AlbumSignS3View(DetailView):
 
     def post(self, *args, **kwargs):
         # Load necessary information into the application
-        S3_BUCKET = "cosmin-photos-test"
+        S3_BUCKET = os.getenv('S3_BUCKET_NAME', 'cosmin-photos')
 
         album = self.get_object()
 
