@@ -47,9 +47,12 @@ $(function () {
                         this._submit();
                     }
                 });
-                this._on(this.element.find('#abortButton'), {
-                    'click': this._abort
-                })
+                this._on(this.element.find('#deleteButton'), {
+                    'click': function(e) {
+                        e.preventDefault();
+                        this._deleteAll()
+                    }
+                });
             }
         },
 
@@ -72,6 +75,7 @@ $(function () {
                     }
                 );
             }
+            $(event.target).val("");
         },
 
         /**
@@ -139,7 +143,7 @@ $(function () {
             this.jqXHR.then(function () {
                 $.each(self.options.filesUI, (id, obj) => {
                     obj.fileui('send').then(function() {
-                        alert('done');
+
                     })
                 });
             })
@@ -148,6 +152,15 @@ $(function () {
             if (this.jqXHR) {
                 return this.jqXHR.abort();
             }
+        },
+
+        _deleteAll: function() {
+            let options = this.options;
+            $.each(options.filesUI, function (id, entry) {
+                entry.fileui('destroy');
+                delete options.filesUI[id];
+            });
+            this.options.files = undefined;
         },
         _initDataForAws: function (signed_urls) {
             let o = this.options;
