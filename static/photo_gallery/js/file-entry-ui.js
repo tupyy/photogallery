@@ -69,8 +69,10 @@ $(function () {
                     that.addClassToElement('span', 'col');
                     if (xhr.status === 200 || xhr.status === 204) {
                         that.showSuccessBadge();
+                        that.options.uploadStatus = 0;
                         dfd.resolve(self.options.id);
                     } else {
+                        that.options.uploadStatus = 1;
                         that.showFailBadge();
                         dfd.fail(self.options.id);
                     }

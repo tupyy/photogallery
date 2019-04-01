@@ -1,11 +1,12 @@
 import json
 import os
+from datetime import datetime
 
 import boto3
 from botocore.config import Config
 from django.http import JsonResponse
 from django.views.generic import DetailView
-from gallery.models import Album
+from gallery.models import Album, Photo
 
 
 class AlbumUploadPhotoView(DetailView):
@@ -14,6 +15,14 @@ class AlbumUploadPhotoView(DetailView):
     """
     model = Album
     template_name = 'upload/upload_form.html'
+
+    def post(self, *args, **kwargs):
+        data = json.loads(self.request.body.decode('utf-8'))
+        album = self.get_object()
+
+        for uploadedPhoto in data.get('done'):
+            Photo.objects.create(album=album, filename=uploadedPhoto, date=datetime.now())
+        return JsonResponse({'status': 'ok'})
 
 
 class AlbumSignS3View(DetailView):

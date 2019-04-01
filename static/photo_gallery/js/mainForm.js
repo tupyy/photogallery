@@ -51,7 +51,7 @@ $(function () {
                     }
                 });
                 this._on(this.element.find('#deleteButton'), {
-                    'click': function(e) {
+                    'click': function (e) {
                         e.preventDefault();
                         this._deleteAll()
                     }
@@ -149,13 +149,21 @@ $(function () {
             });
             this.jqXHR.then(function () {
                 o.counter = 0;
+                let uploadResults = {
+                    'done': [],
+                    'failed': []
+                };
                 $.each(self.options.filesUI, (id, obj) => {
                     o.counter++;
-                    obj.fileui('send').always(function() {
-                       o.counter--;
-                       if (o.counter === 0) {
-                           finishedUpload.resolve();
-                       }
+                    obj.fileui('send').done(function () {
+                        uploadResults['done'].push(obj.fileui('option', 'filename'))
+                    }).fail(function () {
+                        uploadResults['failed'].push(obj.fileui('option', 'filename'))
+                    }).always(function () {
+                        o.counter--;
+                        if (o.counter === 0) {
+                            finishedUpload.resolve(uploadResults);
+                        }
                     });
                 });
             })
@@ -168,13 +176,28 @@ $(function () {
         _onFinishedUpload() {
             let dfd = $.Deferred();
             let promise = dfd.promise();
+            let self = this;
+            promise.then(function (uploadResults) {
+                let options = {
+                    'headers': {},
+                    'type': '',
+                    'url': '',
+                    'data': ''
+                };
+                options.headers['Content-Type'] = 'application/json';
+                options.type = 'POST';
+                options.url = '/album/upload/' + self._get_album_id();
+                options.headers['X-CSRFToken'] = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+                options.data = JSON.stringify(uploadResults);
 
-            promise.then(function () {
-                console.log("aws upload finished")
+                this.jqXHR = $.ajax(options);
+                this.jqXHR.always(function (result, textStatus, jqXHR) {
+                    console.log(result);
+                });
             });
             return dfd;
         },
-        _deleteAll: function() {
+        _deleteAll: function () {
             let options = this.options;
             $.each(options.filesUI, function (id, entry) {
                 entry.fileui('destroy');
@@ -191,7 +214,7 @@ $(function () {
                 }
             }
         },
-        _get_album_id: function() {
+        _get_album_id: function () {
             let href = window.location.href;
             let parts = href.split('/')
             return parts[parts.length - 1]
