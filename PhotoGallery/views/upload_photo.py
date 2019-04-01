@@ -8,11 +8,17 @@ from gallery.models import Album
 
 
 class AlbumUploadPhotoView(DetailView):
+    """
+    This class is used to get the upload view and to handle post request after the upload to s3 has been completed
+    """
     model = Album
     template_name = 'upload/upload_form.html'
 
 
 class AlbumSignS3View(DetailView):
+    """
+    View for signing the files to be upload to s3
+    """
     model = Album
 
     def post(self, *args, **kwargs):
