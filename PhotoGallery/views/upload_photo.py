@@ -1,23 +1,24 @@
 import json
-import os
+
 import boto3
 from botocore.config import Config
-
-from PhotoGallery import settings
-
-from django.http import JsonResponse, HttpResponseServerError
-from django.views import View
-from django.views.generic import TemplateView
+from django.http import JsonResponse
+from django.views.generic import TemplateView, DetailView
+from gallery.models import Album
 
 
-class UploadView(TemplateView):
+class AlbumUploadPhotoView(TemplateView):
     template_name = 'upload/upload_form.html'
 
 
-class SignS3View(View):
+class AlbumSignS3View(DetailView):
+    model = Album
+
     def post(self, *args, **kwargs):
         # Load necessary information into the application
         S3_BUCKET = "cosmin-photos-test"
+
+        album = self.get_object()
 
         # Load required data from the request
         data = json.loads(self.request.body.decode('utf-8'))
@@ -31,7 +32,7 @@ class SignS3View(View):
                 ClientMethod='put_object',
                 Params={
                     'Bucket': S3_BUCKET,
-                    'Key': v.get('filename'),
+                    'Key': 'photos/' + album.dirpath + '/' + v.get('filename'),
                     'ContentType': v.get('filetype')
                 }
             )

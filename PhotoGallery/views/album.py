@@ -19,7 +19,7 @@ class AddAlbumCommonMixin(object):
                                     name=form.cleaned_data['album_name'])
 
     def get_album_path(self, form):
-        return "{}\\{}_{}_{}".format(form.cleaned_data['album_date'].year,
+        return "{}//{}_{}_{}".format(form.cleaned_data['album_date'].year,
                                      self._pad_to_left(form.cleaned_data['album_date'].day),
                                      self._pad_to_left(form.cleaned_data['album_date'].month),
                                      form.cleaned_data['album_name'])

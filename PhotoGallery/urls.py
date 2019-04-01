@@ -6,7 +6,7 @@ from django.urls import path
 
 from PhotoGallery import settings
 from PhotoGallery.views.album import AddAlbumView, DeleteAlbumView
-from PhotoGallery.views.upload_photo import UploadView, SignS3View
+from PhotoGallery.views.upload_photo import AlbumSignS3View, AlbumUploadPhotoView
 from authentication.views import login_view, logout_view
 
 from PhotoGallery.views.index import PreviewGalleryIndexView
@@ -20,16 +20,23 @@ urlpatterns_account = [
     url(r'^accounts/', include('django.contrib.auth.urls')),
 ]
 
+"""
+    Url patterns for album
+"""
+urlpatterns_album = [
+    path('album/create', AddAlbumView.as_view(), name="add_album_view"),
+    path('album/delete/<pk>', DeleteAlbumView.as_view(), name='delete_album_view'),
+    path('album/sign-s3/<pk>', AlbumSignS3View.as_view(), name='sign-s3'),
+    path('album/upload/<pk>', AlbumUploadPhotoView.as_view(), name='photo-upload')
+]
+
 urlpatterns = [
     path('', PreviewGalleryIndexView.as_view(), name='index'),
-    path('add_album', AddAlbumView.as_view(), name="add_album_view"),
-    path('delete_album/<pk>', DeleteAlbumView.as_view(), name='delete_album_view'),
-    path('upload', UploadView.as_view(), name='photo-upload'),
-    path('sign-s3', SignS3View.as_view(), name='sign-s3'),
     path('', include('gallery.urls', namespace='gallery')),
 ]
 
 urlpatterns += urlpatterns_account
+urlpatterns += urlpatterns_album
 
 if settings.ENV == 'development' or settings.ENV == 'development_aws':
     urlpatterns += [url(r'^admin/', admin.site.urls)]
