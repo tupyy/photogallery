@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 from datetime import datetime
 
 import boto3
@@ -7,6 +8,8 @@ from botocore.config import Config
 from django.http import JsonResponse
 from django.views.generic import DetailView
 from gallery.models import Album, Photo
+
+logger = logging.getLogger('django')
 
 
 class AlbumUploadPhotoView(DetailView):
@@ -21,7 +24,13 @@ class AlbumUploadPhotoView(DetailView):
         album = self.get_object()
 
         for uploadedPhoto in data.get('done'):
+            logger.error('successful upload: ' + uploadedPhoto)
             Photo.objects.create(album=album, filename=uploadedPhoto, date=datetime.now())
+
+        # log errors
+        for failedUpload in data.get('failed'):
+            logger.error('failed upload: ' + failedUpload)
+
         return JsonResponse({'status': 'ok'})
 
 
