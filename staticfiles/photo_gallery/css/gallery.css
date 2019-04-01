@@ -9,41 +9,11 @@
     text-decoration: none;
 }
 
-.nav-user {
-    color: white;
-    display: flex;
-    align-items: center;
-    margin-right: 1rem;
-}
-
-.nav-user > p {
-    margin: 0;
-    padding-left: 0.5rem;
-}
-
-.navbar-search {
-    margin-left: 10px;
-    border-left: 1px solid white;
-    color: white;
-}
-
 /*
     Mobile
 */
 
 @media only screen and (max-width: 500px) {
-    .hidden-xs {
-        display: none;
-    }
-
-    .visible-xs {
-        display: flex;
-    }
-
-    .visible-xs > a {
-        width: 100%;
-        margin: 0.75rem;
-    }
 
     .row {
         margin: auto;
@@ -90,14 +60,6 @@
     DESKTOP
  */
 @media only screen and (min-width: 500px) {
-
-    .hidden-xs {
-        display: flex;
-    }
-
-    .visible-xs {
-        display: none;
-    }
 
     .album_year_container {
         display: flex;
