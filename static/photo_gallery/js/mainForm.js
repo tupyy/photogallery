@@ -12,6 +12,9 @@ $(function () {
 
             jqXHR: undefined,
 
+            // counter for uploaded files
+            counter: undefined,
+
             filter: function (files) {
                 let that = this;
                 if (that.files === undefined) {
@@ -136,14 +139,24 @@ $(function () {
         _submit: function () {
             let self = this,
                 o = this.options;
+
+            const finishedUpload = self._onFinishedUpload();
+
             self._initDataforSigning(o);
             this.jqXHR = $.ajax(o);
             this.jqXHR.done(function (result, textStatus, jqXHR) {
                 self._initDataForAws(result);
             });
             this.jqXHR.then(function () {
+                o.counter = 0;
                 $.each(self.options.filesUI, (id, obj) => {
-                    obj.fileui('send');
+                    o.counter++;
+                    obj.fileui('send').then(function() {
+                       o.counter--;
+                       if (o.counter === 0) {
+                           finishedUpload.resolve();
+                       }
+                    });
                 });
             })
         },
@@ -152,7 +165,15 @@ $(function () {
                 return this.jqXHR.abort();
             }
         },
+        _onFinishedUpload() {
+            let dfd = $.Deferred();
+            let promise = dfd.promise();
 
+            promise.then(function () {
+                console.log("aws upload finished")
+            });
+            return dfd;
+        },
         _deleteAll: function() {
             let options = this.options;
             $.each(options.filesUI, function (id, entry) {
