@@ -125,7 +125,7 @@ $(function () {
             this._initOptions(options);
             options.headers['Content-Type'] = 'application/json';
             options.type = 'POST';
-            options.url = '/sign-s3';
+            options.url = '/album/sign-s3/' + this._get_album_id();
             options.headers['X-CSRFToken'] = document.getElementsByName('csrfmiddlewaretoken')[0].value;
             tempData = {};
             $.each(options.filesUI, (idx, value) => {
@@ -191,6 +191,11 @@ $(function () {
                 }
             }
         },
+        _get_album_id: function() {
+            let href = window.location.href;
+            let parts = href.split('/')
+            return parts[parts.length - 1]
+        }
 
     });
 });
