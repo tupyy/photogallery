@@ -21,6 +21,16 @@ $(function () {
                 "style": "width: 0%"
             }).appendTo(this.progressDiv);
 
+            this.successBadge = $("<div></div>", {
+                "text": "Success",
+                "class": "badge badge-success hide"
+            }).appendTo(this.mainElement);
+
+            this.errorBadge = $("<div></div>", {
+                "text": "Fail",
+                "class": "badge badge-danger hide"
+            }).appendTo(this.mainElement);
+
             this.deleteButton = $("<button>", {
                 text: "Delete",
                 "class": "ui-upload-button btn btn-danger"
@@ -33,6 +43,25 @@ $(function () {
                     this._delete();
                 }
             });
+        },
+
+        showSuccessBadge: function() {
+            this.successBadge.removeClass('hide');
+        },
+
+        showFailBadge: function() {
+          this.errorBadge.removeClass('hide');
+        },
+
+        hideProgress: function() {
+          this.progressDiv.addClass('hide');
+        },
+
+        addClassToElement: function(element, className) {
+            let _element = this.element.find(element);
+            if (_element) {
+                _element.addClass(className);
+            }
         },
 
         refresh: function (progress) {

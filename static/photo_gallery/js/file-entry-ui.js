@@ -42,6 +42,7 @@ $(function () {
         },
 
         send: function () {
+            let that = this;
             this.options.xhr = new XMLHttpRequest();
             let xhr = this.options.xhr;
             let dfd = $.Deferred();
@@ -64,6 +65,10 @@ $(function () {
                     self.options.uploaded = true;
                     self.options.xhr = undefined;
                     if (xhr.status === 200 || xhr.status === 204) {
+                        that.hideProgress();
+                        that.showSuccessBadge();
+                        that.addClassToElement('button', 'hide');
+                        that.addClassToElement('span','col');
                         dfd.resolve(self.options.id);
                     } else {
                         dfd.fail(self.options.id);
