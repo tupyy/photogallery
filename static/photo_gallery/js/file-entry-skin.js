@@ -27,7 +27,7 @@ $(function () {
             }).appendTo(this.mainElement);
 
             this.errorBadge = $("<div></div>", {
-                "text": "Fail",
+                "text": "Failed",
                 "class": "badge badge-danger hide"
             }).appendTo(this.mainElement);
 
