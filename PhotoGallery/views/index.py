@@ -11,8 +11,9 @@ class PreviewCommonMixin(object):
 
     def get_user_permissions(self):
         perms = {}
-        for permission in self.request.user._perm_cache:
-            perms[permission] = True
+        if '_perm_cache' in self.request.uers:
+            for permission in self.request.user._perm_cache:
+                perms[permission] = True
         return perms
 
 
