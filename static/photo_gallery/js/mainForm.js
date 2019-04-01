@@ -151,7 +151,7 @@ $(function () {
                 o.counter = 0;
                 $.each(self.options.filesUI, (id, obj) => {
                     o.counter++;
-                    obj.fileui('send').then(function() {
+                    obj.fileui('send').always(function() {
                        o.counter--;
                        if (o.counter === 0) {
                            finishedUpload.resolve();
