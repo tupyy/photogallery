@@ -10,7 +10,10 @@ class PreviewCommonMixin(object):
     """ Provide can_add_album can_add_photo """
 
     def get_user_permissions(self):
-        return self.request.user._perm_cache
+        perms = {}
+        for permission in self.request.user._perm_cache:
+            perms[permission] = True
+        return perms
 
 
 class PreviewGalleryIndexView(PreviewCommonMixin, GalleryIndexView):

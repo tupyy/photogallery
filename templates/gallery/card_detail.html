@@ -1,16 +1,16 @@
 {% load i18n %}
 {% load static %}
 <div class="card">
-        <a href="{{ album.get_absolute_url }}" class="custom-card">
-            {% if album.preview.0.pk %}
-                <img src="{% url 'gallery:photo-resized' preset='thumb' pk=album.preview.0.pk %}"
-                     class="img-fluid">
-            {% else %}
-                <img src="{% static 'photo_gallery/img/image_not_available.png' %}"
-                     class="img-fluid image_na">
-            {% endif %}
-        </a>
-        <div class="card-body">
+    <a href="{{ album.get_absolute_url }}" class="custom-card">
+        {% if album.preview.0.pk %}
+            <img src="{% url 'gallery:photo-resized' preset='thumb' pk=album.preview.0.pk %}"
+                 class="img-fluid">
+        {% else %}
+            <img src="{% static 'photo_gallery/img/image_not_available.png' %}"
+                 class="img-fluid image_na">
+        {% endif %}
+    </a>
+    <div class="card-body">
             <span class="card_date">
                 <i class="far fa-calendar-alt"></i>
                 {% language 'ro' %}
@@ -18,28 +18,28 @@
                 {% endlanguage %}
             </span>
 
-            <h5 class="card-title">{{ album.display_name }}</h5>
-        </div>
+        <h5 class="card-title">{{ album.display_name }}</h5>
+    </div>
 
-        <!-- footer -->
-        <div class="card-footer">
-            <div class="card-btn">
-                <a href="{{ album.get_absolute_url }}" class="btn btn-link btn-block">Acceseaza
-                    album</a>
+    <!-- footer -->
+    <div class="card-footer">
+        <div class="card-btn">
+            <a href="{{ album.get_absolute_url }}" class="btn btn-link btn-block">Acceseaza
+                album</a>
+        </div>
+        {% if 'gallery.add_photo' in perms %}
+            <div class="action-btn">
+                <a href="{% url 'photo-upload' album.id %}" class="btn btn-link">
+                    <i class="fa fa-upload"></i>
+                </a>
             </div>
-
-                <div class="action-btn">
-                    <a href="{% url 'photo-upload' album.id %}" class="btn btn-link">
-                        <i class="fa fa-upload"></i>
-                    </a>
-                </div>
-
-            {% if perls.gallery.delete_album %}
-                <div class="action-btn">
-                    <a href="{% url 'delete_album_view' album.id %}" class="btn btn-link">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                </div>
-            {% endif %}
-        </div>
+        {% endif %}
+        {% if 'gallery.delete_album' in perms %}
+            <div class="action-btn">
+                <a href="{% url 'delete_album_view' album.id %}" class="btn btn-link">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </div>
+        {% endif %}
+    </div>
 </div>
