@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
-from PhotoGallery.settings.components.database import DATABASES_DEV
-from PhotoGallery.settings.utils.utils import parse_db_variable
+from PhotoGallery.settings.components.database import DATABASES_AWS
 
 DEBUG = True
 ALLOWED_HOSTS = ['*']
@@ -38,7 +37,7 @@ AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
 AWS_DEFAULT_ACL = None
 
 
-DATABASES = DATABASES_DEV
+DATABASES = DATABASES_AWS
 
 S3_URL = 'https://{0}.s3.amazonaws.com'.format(os.getenv('AWS_STORAGE_BUCKET_NAME'))
 MEDIA_URL = S3_URL + "/photos/"

@@ -12,7 +12,7 @@ from os import environ
 from split_settings.tools import optional, include
 
 # Managing environment via DJANGO_ENV variable:
-environ.setdefault('DJANGO_ENV', 'production')
+environ.setdefault('DJANGO_ENV', 'development_aws')
 ENV = environ['DJANGO_ENV']
 
 
@@ -21,6 +21,7 @@ base_settings = [
     'components/common.py',
     'components/gallery.py',
     'components/database.py',
+    'components/database_aws.py',
 
     # You can even use glob:
     # 'components/*.py'

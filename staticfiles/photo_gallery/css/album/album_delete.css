@@ -1,0 +1,14 @@
+.form-wrapper {
+    border: none;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+}
+
+.delete-confirmation {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
