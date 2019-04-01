@@ -100,6 +100,7 @@ $(function () {
             let options = this.options;
             $.each(options.filesUI, function (id, entry) {
                 if (id === data.id) {
+                    entry.fileui('abort');
                     entry.fileui('destroy');
                     delete options.filesUI[id];
                     return false;
@@ -142,9 +143,7 @@ $(function () {
             });
             this.jqXHR.then(function () {
                 $.each(self.options.filesUI, (id, obj) => {
-                    obj.fileui('send').then(function() {
-
-                    })
+                    obj.fileui('send');
                 });
             })
         },
