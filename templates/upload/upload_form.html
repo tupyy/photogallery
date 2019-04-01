@@ -2,23 +2,25 @@
 {% load static from staticfiles %}
 
 {% block extrahead %}
-    <link href="{% static "photo_gallery/css/upload.css" %}" rel="stylesheet">
+    <link href="{% static "photo_gallery/css/upload/fileui.css" %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
     {% include 'navbar.html' %}
     <div class="row">
-        <div class="col col-lg-3">
+        <form class="col col-lg-3 fileui-form">
             <div id="mainForm">
                 {% csrf_token %}
-                <span class="btn btn-success fileinput-button">
-                <span>Add files...</span>
-                    <input type="file" name="files[]" multiple>
-                </span>
-                <button class="btn btn-primary" id="submitButton">Upload</button>
-                <button class="btn btn-danger" id="abortButton">Stop</button>
+                <div class="button-container">
+                    <span class="btn btn-success fileinput-button">
+                        <span>Add files...</span>
+                        <input type="file" name="files[]" multiple>
+                    </span>
+                    <button class="btn btn-primary" id="submitButton">Upload</button>
+                    <button class="btn btn-danger" id="abortButton">Stop</button>
+                </div>
                 <div class="file-list-container"></div>
             </div>
-        </div>
+        </form>
     </div>
 
 

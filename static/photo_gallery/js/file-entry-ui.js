@@ -66,7 +66,7 @@ $(function () {
                     if (xhr.status === 200 || xhr.status === 204) {
                         dfd.resolve(self.options.id);
                     } else {
-                        dfd.failed(self.options.id);
+                        dfd.fail(self.options.id);
                     }
                 }
             };
