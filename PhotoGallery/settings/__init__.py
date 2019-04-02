@@ -21,6 +21,7 @@ base_settings = [
     'components/common.py',
     'components/gallery.py',
     'components/database.py',
+    'components/database_aws.py',
 
     # You can even use glob:
     # 'components/*.py'
