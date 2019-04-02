@@ -137,61 +137,65 @@ $(function () {
         },
         _submit: function () {
             let self = this,
-                o = this.options,
-                uploadResults = {
+                o = this.options;
+                uploadResult = {
                     'done': [],
                     'failed': []
                 };
 
-            const finishedUpload = self._onFinishedUpload();
             o.processItems = [];
 
             self._initDataforSigning(o);
             this.jqXHR = $.ajax(o);
             this.jqXHR.done(function (result, textStatus, jqXHR) {
                 self._initDataForAws(result);
-            });
-            this.jqXHR.then(function () {
                 $.each(self.options.filesUI, (id, obj) => {
                     const promise = obj.fileui('send');
-                    promise.done(function () {
-                        uploadResults['done'].push(obj.fileui('option', 'filename'))
-                    }).fail(function () {
-                        uploadResults['failed'].push(obj.fileui('option', 'filename'))
-                    });
                     o.processItems.push(promise)
                 });
+
+                $.when.apply($, $.map(o.processItems, function(item) {
+                    let dfd = $.Deferred();
+                    item.done(function(filename) {
+                        uploadResult['done'].push(filename);
+                    }).fail(function(filename) {
+                        uploadResult['failed'].push(filename);
+                    }).always(function() {
+                        dfd.resolve();
+                    });
+                    return dfd.promise();
+                })).then(function() {
+                    self._onFinishedUpload(uploadResult);
+
+                });
             });
-            $.when.apply($, o.processItems).then(finishedUpload.resolve(uploadResults));
+
+
         },
         _abort: function () {
             if (this.jqXHR) {
                 return this.jqXHR.abort();
             }
         },
-        _onFinishedUpload() {
-            let dfd = $.Deferred();
-            let promise = dfd.promise();
+        _onFinishedUpload(uploadResults) {
             let self = this;
-            promise.then(function (uploadResults) {
-                let options = {
-                    'headers': {},
-                    'type': '',
-                    'url': '',
-                    'data': ''
-                };
-                options.headers['Content-Type'] = 'application/json';
-                options.type = 'POST';
-                options.url = '/album/upload/' + self._get_album_id();
-                options.headers['X-CSRFToken'] = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-                options.data = JSON.stringify(uploadResults);
 
-                this.jqXHR = $.ajax(options);
-                this.jqXHR.always(function (result, textStatus, jqXHR) {
-                    console.log(result);
-                });
+            let options = {
+                'headers': {},
+                'type': '',
+                'url': '',
+                'data': ''
+            };
+            options.headers['Content-Type'] = 'application/json';
+            options.type = 'POST';
+            options.url = '/album/upload/' + self._get_album_id();
+            options.headers['X-CSRFToken'] = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+            options.data = JSON.stringify(uploadResults);
+
+            this.jqXHR = $.ajax(options);
+            this.jqXHR.always(function (result, textStatus, jqXHR) {
+                console.log(result);
             });
-            return dfd;
         },
         _deleteAll: function () {
             let options = this.options;

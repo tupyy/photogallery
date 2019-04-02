@@ -50,9 +50,9 @@ $(function () {
             let xhr = this.options.xhr;
             let dfd = $.Deferred();
 
-            if (this.options.uploaded) {
-                dfd.resolve();
-            }
+            // if (this.options.uploaded) {
+            //     dfd.resolve();
+            // }
 
             const self = this;
             xhr.upload.addEventListener("progress", function (e) {
@@ -73,11 +73,11 @@ $(function () {
                     if (xhr.status === 200 || xhr.status === 204) {
                         that.showSuccessBadge();
                         that.options.uploadStatus = 0;
-                        dfd.resolve(self.options.id);
+                        dfd.resolve(self.options.filename);
                     } else {
                         that.options.uploadStatus = 1;
                         that.showFailBadge();
-                        dfd.fail(self.options.id);
+                        dfd.reject(self.options.filename);
                     }
                 }
             };
