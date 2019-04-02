@@ -12,8 +12,7 @@ $(function () {
 
             jqXHR: undefined,
 
-            // counter for uploaded files
-            counter: undefined,
+            processItems: undefined,
 
             filter: function (files) {
                 let that = this;
@@ -141,6 +140,7 @@ $(function () {
                 o = this.options;
 
             const finishedUpload = self._onFinishedUpload();
+            o.processItems = [];
 
             self._initDataforSigning(o);
             this.jqXHR = $.ajax(o);
@@ -148,14 +148,13 @@ $(function () {
                 self._initDataForAws(result);
             });
             this.jqXHR.then(function () {
-                o.counter = 0;
                 let uploadResults = {
                     'done': [],
                     'failed': []
                 };
                 $.each(self.options.filesUI, (id, obj) => {
-                    o.counter++;
-                    obj.fileui('send').done(function () {
+                    const promise = obj.fileui('send');
+                    promise.done(function () {
                         uploadResults['done'].push(obj.fileui('option', 'filename'))
                     }).fail(function () {
                         uploadResults['failed'].push(obj.fileui('option', 'filename'))
@@ -165,8 +164,10 @@ $(function () {
                             finishedUpload.resolve(uploadResults);
                         }
                     });
+                    o.processItems.push(promise)
                 });
-            })
+            });
+            $.when.apply($, o.processItems).then(this._onFinishedUpload());
         },
         _abort: function () {
             if (this.jqXHR) {
