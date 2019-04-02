@@ -1,16 +1,14 @@
 from __future__ import unicode_literals
 
-from django.contrib import admin
 from django.conf.urls import include, url
+from django.contrib import admin
 from django.urls import path
 
-from PhotoGallery import settings
 from PhotoGallery.views.album import AddAlbumView, DeleteAlbumView
+from PhotoGallery.views.index import PreviewGalleryIndexView
 from PhotoGallery.views.photo import DeletePhotoView
 from PhotoGallery.views.upload_photo import AlbumSignS3View, AlbumUploadPhotoView
 from authentication.views import login_view, logout_view
-
-from PhotoGallery.views.index import PreviewGalleryIndexView
 
 """
     Url patterns for account
