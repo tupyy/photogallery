@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
+from django.contrib.auth.models import Permission
 from django.shortcuts import redirect
 from django.urls import reverse
 from gallery.views import GalleryIndexView
@@ -10,11 +11,10 @@ class PreviewCommonMixin(object):
     """ Provide can_add_album can_add_photo """
 
     def get_user_permissions(self):
-        perms = {'gallery.add_photo': True,
-                 'gallery.add_album': True}
-        # if '_perm_cache' in self.request.user:
-        #     for permission in self.request.user._perm_cache:
-        #         perms[permission] = True
+        perms = []
+        permissions = Permission.objects.filter(content_type__app_label__exact='gallery')
+        for permission in permissions:
+            perms.append('gallery' + '.' + permission.codename)
 
         return perms
 
