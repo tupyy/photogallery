@@ -9,7 +9,5 @@ DATABASES_DEV = {
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432',
-
     }
 }
-

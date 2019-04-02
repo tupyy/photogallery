@@ -1,0 +1,57 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+#image-gallery .modal-footer{
+  display: block;
+}
+
+.thumb{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.album_title
+{
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.photo_nav {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.photo_nav .fas {
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: black;
+}
+
+/*
+    Hide form in navbar
+ */
+
+.navbar form {
+    display: none;
+}
+
+@media only screen and (max-width: 800px){
+    img {
+        width: 128px;
+        height: 128px;
+    }
+}
+
+@media only screen and (max-width: 575px){
+    img {
+        width: 256px;
+        height: 256px;
+    }
+}
+

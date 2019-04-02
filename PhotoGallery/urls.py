@@ -38,5 +38,4 @@ urlpatterns = [
 urlpatterns += urlpatterns_account
 urlpatterns += urlpatterns_album
 
-if settings.ENV == 'development' or settings.ENV == 'development_aws':
-    urlpatterns += [url(r'^admin/', admin.site.urls)]
+urlpatterns += [url(r'^admin/', admin.site.urls)]

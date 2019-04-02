@@ -16,5 +16,7 @@ urllib3==1.23
 whitenoise==4.0
 gunicorn==19.7.1
 django-split-settings==0.3.0
+django-cors-headers==2.4.1
+
 
 

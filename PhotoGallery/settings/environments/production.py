@@ -14,6 +14,10 @@ DEBUG = False
 ALLOWED_HOSTS = ['cosmin-photos.herokuapp.com']
 SECRET_KEY = os.getenv('SECRET_KEY')
 
+CORS_ORIGIN_WHITELIST = (
+    's3.amazonaws.com',
+    'cosmin-photos.herokuapp.com'
+)
 """
 Database Postgres for Heroku
 """

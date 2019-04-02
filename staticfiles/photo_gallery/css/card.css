@@ -22,6 +22,11 @@
     overflow: hidden;
 }
 
+.card > a > .image_na {
+    width: 200px;
+    margin: auto;
+}
+
 .card .card-body {
     padding: 0.9rem;
 }

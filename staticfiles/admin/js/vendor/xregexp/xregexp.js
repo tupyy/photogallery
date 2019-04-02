@@ -1257,7 +1257,7 @@ XRegExp = XRegExp || (function (undef) {
  *  Expose XRegExp
  *------------------------------------*/
 
-// For CommonJS environments
+// For CommonJS enviroments
     if (typeof exports !== "undefined") {
         exports.XRegExp = self;
     }
