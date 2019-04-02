@@ -3,16 +3,11 @@ import os
 
 from PhotoGallery.settings.components.database import DATABASES_DEV
 
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 SECRET_KEY = "my_super_secret_key"
 DEFAULT_FILE_STORAGE = 'PhotoGallery.storage.PhotoS3Boto3'
 MEDIA_ROOT = "/photos/"
-
-CORS_ORIGIN_WHITELIST = (
-    's3.amazonaws.com',
-    '127.0.0.1:8000'
-)
 
 """
     Load variables from config.env

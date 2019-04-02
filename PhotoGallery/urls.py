@@ -6,6 +6,7 @@ from django.urls import path
 
 from PhotoGallery import settings
 from PhotoGallery.views.album import AddAlbumView, DeleteAlbumView
+from PhotoGallery.views.photo import DeletePhotoView
 from PhotoGallery.views.upload_photo import AlbumSignS3View, AlbumUploadPhotoView
 from authentication.views import login_view, logout_view
 
@@ -30,6 +31,13 @@ urlpatterns_album = [
     path('album/upload/<pk>', AlbumUploadPhotoView.as_view(), name='photo-upload')
 ]
 
+"""
+    Url patterns for photos
+"""
+urlpatterns_photo = [
+    path('photo/delete/<pk>', DeletePhotoView.as_view(), name='delete_photo_view')
+]
+
 urlpatterns = [
     path('', PreviewGalleryIndexView.as_view(), name='index'),
     path('', include('gallery.urls', namespace='gallery')),
@@ -37,5 +45,6 @@ urlpatterns = [
 
 urlpatterns += urlpatterns_account
 urlpatterns += urlpatterns_album
+urlpatterns += urlpatterns_photo
 
 urlpatterns += [url(r'^admin/', admin.site.urls)]

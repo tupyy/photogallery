@@ -18,8 +18,8 @@
         </div>
     </section>
 
-    <div class="album text-muted">
-        <div class="container">
+    <div class="album text-muted col">
+        <div class="album-container col-xs-12 col-lg-9">
             {% if q %}
                 {% blocktrans with query=q %}Rezultatele cautarii <strong>{{ query }}</strong>{% endblocktrans %} |
                 <a href="{% url 'gallery:index' %}">Vizualizeaza tot</a>
