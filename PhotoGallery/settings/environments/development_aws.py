@@ -9,6 +9,17 @@ SECRET_KEY = "my_super_secret_key"
 DEFAULT_FILE_STORAGE = 'PhotoGallery.storage.PhotoS3Boto3'
 MEDIA_ROOT = "/photos/"
 
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
 """
     Load variables from config.env
 """
