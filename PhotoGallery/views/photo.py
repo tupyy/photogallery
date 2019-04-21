@@ -17,7 +17,7 @@ class DeletePhotoView(DeleteView):
         cache_storage = get_storage('cache')
 
         photo_storage.delete(photo.album.dirpath + "/" + photo.filename)
-        cache_storage.delete(photo.thumbnail('thumb'))
+        cache_storage.delete(photo.thumb_name('thumb'))
 
         photo.delete()
         return redirect('/album/{}'.format(album_id))
