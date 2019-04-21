@@ -18,6 +18,22 @@
         </div>
     </section>
 
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <div class="alert alert-primary" role="alert">
+                        {{ message }}
+                    </div>
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <div class="album text-muted col">
         <div class="album-container col-xs-12 col-lg-9">
             {% if q %}
