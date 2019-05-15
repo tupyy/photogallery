@@ -40,6 +40,11 @@
                     <i class="fa fa-trash"></i>
                 </a>
             </div>
+            <div class="action-btn">
+                <a href="{% url 'cleanup_album_view' album.id%}" class="btn btn-link">
+                    <i class="fas fa-broom"></i>
+                </a>
+            </div>
         {% endif %}
     </div>
 </div>
