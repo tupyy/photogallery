@@ -11,30 +11,10 @@ nav {
     margin-bottom: 0;
 }
 
-.jumbotron {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
-    margin-bottom: 0;
-    background-color: #fff;
-}
-
-.jumbotron-heading {
-    font-weight: 600;
-}
-
-.jumbotron p:last-child {
-    margin-bottom: 0;
-}
-
-.jumbotron .container {
-    max-width: 40rem;
-}
-
 .album {
     /* Can be removed; just added for demo purposes */
     padding-top: 3rem;
     padding-bottom: 3rem;
-    background-color: #e3dddd;
 }
 
 .content {
