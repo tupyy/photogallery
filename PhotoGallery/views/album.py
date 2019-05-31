@@ -62,6 +62,13 @@ class DeleteAlbumView(DeleteView):
     success_url = reverse_lazy('index')
     template_name = 'photo_gallery/delete_album_confirmation.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        album = context['album']
+        photos = album.photo_set.all()
+        album.preview = photos[0] if len(photos) > 0 else None
+        return context
+
     def post(self, request, *args, **kwargs):
         photo_storage = get_storage('photo')
         _, files = photo_storage.listdir(self.get_object().dirpath)
