@@ -1,8 +1,6 @@
-from django.contrib import messages
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, DeleteView, DetailView
-from gallery.models import Album, AlbumAccessPolicy, Photo
+from django.views.generic import FormView, DeleteView
+from gallery.models import Album, AlbumAccessPolicy
 from gallery.storages import get_storage
 
 from PhotoGallery.forms.album_forms import AddAlbumForm
