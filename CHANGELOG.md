@@ -1,5 +1,10 @@
 # Change log
 
+## v2.1.1 16/06/2019
+- update django to 2.2.2
+- mod album photo css. Show photos in a more compact way
+- move cleanup action to admin section
+
 ## v2.1.0 21/04/2019
 - add cleanup album action
 - add django message to index view
