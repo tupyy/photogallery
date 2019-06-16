@@ -78,3 +78,11 @@ a.custom-card:hover {
     color: inherit;
 }
 
+@media all and (min-device-width: 500px) {
+    .card > a > img {
+        height: 200px;
+    }
+}
+
+
+

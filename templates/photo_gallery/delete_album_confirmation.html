@@ -12,8 +12,8 @@
         <form action="{% url "delete_album_view" object.id %}" method="post">
             {% csrf_token %}
             <div class="image-container">
-                {% if album.preview.0.pk %}
-                <img src="{% url 'gallery:photo-resized' preset='thumb' pk=album.preview.0.pk %}"
+                {% if album.preview %}
+                <img src="{% url 'gallery:photo-resized' preset='thumb' pk=album.preview.pk %}"
                      class="img-fluid">
                 {% else %}
                     <img src="{% static 'photo_gallery/img/image_not_available.png' %}"

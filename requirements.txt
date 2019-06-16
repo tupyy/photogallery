@@ -1,6 +1,6 @@
 boto3==1.9.106
 botocore==1.12.106
-Django==2.1.7
+Django==2.2.2
 django-sesame==1.4
 django-storages==1.7
 docutils==0.14
@@ -10,7 +10,7 @@ Pillow==5.2.0
 psycopg2==2.7.5
 python-dateutil==2.7.3
 pytz==2018.5
-s3transfer==0.1.13
+s3transfer==0.2.0
 six==1.11.0
 urllib3==1.23
 whitenoise==4.0

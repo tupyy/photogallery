@@ -1,8 +1,6 @@
-from django.contrib import messages
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, DeleteView, DetailView
-from gallery.models import Album, AlbumAccessPolicy, Photo
+from django.views.generic import FormView, DeleteView
+from gallery.models import Album, AlbumAccessPolicy
 from gallery.storages import get_storage
 
 from PhotoGallery.forms.album_forms import AddAlbumForm
@@ -62,6 +60,13 @@ class DeleteAlbumView(DeleteView):
     success_url = reverse_lazy('index')
     template_name = 'photo_gallery/delete_album_confirmation.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        album = context['album']
+        photos = album.photo_set.all()
+        album.preview = photos[0] if len(photos) > 0 else None
+        return context
+
     def post(self, request, *args, **kwargs):
         photo_storage = get_storage('photo')
         _, files = photo_storage.listdir(self.get_object().dirpath)
@@ -73,32 +78,3 @@ class DeleteAlbumView(DeleteView):
         # delete caches
         # TODO implement delete caches
         return super().post(request, *args, **kwargs)
-
-
-class CleanupAlbumView(DetailView):
-    """ Class to clean up a broken uploads for an album.
-    It scans the database and remove the photos which are not present on the storage
-    """
-    model = Album
-    success_url = reverse_lazy('index')
-
-    def get(self, request, *args, **kwargs):
-        album = self.get_object()
-        photos = Photo.objects.filter(album_id__exact=album.id)
-        photo_storage = get_storage('photo')
-        cache_storage = get_storage('cache')
-
-        counter = 0
-        for photo in photos:
-            if not photo_storage.exists(photo.album.dirpath + "/" + photo.filename):
-                # check if cache exists, delete it also
-                if cache_storage.exists(photo.thumb_name('thumb')):
-                    cache_storage.delete(photo.thumb_name('thumb'))
-                photo.delete()
-                counter += 1
-
-        alert_message = "{} photos are not present on storage and they have been deleted".format(counter) \
-            if counter > 0 else "The album is already clean"
-        messages.success(request, alert_message)
-
-        return redirect(CleanupAlbumView.success_url)

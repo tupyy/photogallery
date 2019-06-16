@@ -4,7 +4,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.urls import path
 
-from PhotoGallery.views.album import AddAlbumView, DeleteAlbumView, CleanupAlbumView
+from PhotoGallery.views.album import AddAlbumView, DeleteAlbumView
 from PhotoGallery.views.index import PreviewGalleryIndexView
 from PhotoGallery.views.photo import DeletePhotoView
 from PhotoGallery.views.upload_photo import AlbumSignS3View, AlbumUploadPhotoView
@@ -27,7 +27,6 @@ urlpatterns_album = [
     path('album/delete/<pk>', DeleteAlbumView.as_view(), name='delete_album_view'),
     path('album/sign-s3/<pk>', AlbumSignS3View.as_view(), name='sign-s3'),
     path('album/upload/<pk>', AlbumUploadPhotoView.as_view(), name='photo-upload'),
-    path('album/cleanup/<pk>', CleanupAlbumView.as_view(), name='cleanup_album_view')
 ]
 
 """

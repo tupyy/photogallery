@@ -40,33 +40,14 @@
                 <div></div>
             {% endif %}
         </div>
-        <div class="row">
+        <div class="col-lg-12 col-md-12 col-xs-12 thumb">
             {% for photo in photos %}
-                <div class="col-lg-3 col-md-3 col-xs-6 thumb">
-                    {% if 'gallery.delete_photo' in perms %}
-                        <div class="card">
-                         <a class="thumbnail" href="{{ photo.get_absolute_url }}">
-                                <img src="{% url 'gallery:photo-resized' preset='thumb' pk=photo.pk %}"
-                                     alt="{{ photo }}">
-                            </a>
-                            <div class="card-footer">
-                                <div class="action-btn">
-                                    <a href="{% url 'delete_photo_view' photo.pk %}" class="btn btn-danger">
-                                        <i class="fa fa-trash"></i>
-                                            <span>Delete</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    {% else %}
-                        <a class="thumbnail" href="{{ photo.get_absolute_url }}">
-                            <img src="{% url 'gallery:photo-resized' preset='thumb' pk=photo.pk %}"
-                                 alt="{{ photo }}">
-                        </a>
-                    {% endif %}
-                </div>
+                <a class="thumbnail" href="{{ photo.get_absolute_url }}">
+                    <img src="{% url 'gallery:photo-resized' preset='thumb' pk=photo.pk %}"
+                         alt="{{ photo }}">
+                </a>
                 {% empty %}
-                <p>{% trans "Sorry, you aren't authorized to view any photos in this album." %}</p>
+                    <p>{% trans "Sorry, you aren't authorized to view any photos in this album." %}</p>
             {% endfor %}
         </div>
     </div>

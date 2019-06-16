@@ -11,6 +11,7 @@ body {
     margin-bottom: 15px;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .album_title
@@ -46,17 +47,15 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-@media only screen and (max-width: 800px){
-    img {
-        width: 128px;
-        height: 128px;
+
+.thumbnail {
+        margin: 1px;
     }
-}
 
 @media only screen and (max-width: 575px){
     img {
-        width: 256px;
-        height: 256px;
+        width: 128px;
+        height: 128px;
     }
 }
 
