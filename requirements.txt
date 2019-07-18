@@ -1,6 +1,6 @@
 boto3==1.9.106
 botocore==1.12.106
-Django==2.2.2
+Django==2.2.3
 django-sesame==1.4
 django-storages==1.7
 docutils==0.14
@@ -12,7 +12,7 @@ python-dateutil==2.7.3
 pytz==2018.5
 s3transfer==0.2.0
 six==1.11.0
-urllib3==1.23
+urllib3==1.24.2
 whitenoise==4.0
 gunicorn==19.7.1
 django-split-settings==0.3.0
