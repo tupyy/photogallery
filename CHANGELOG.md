@@ -1,5 +1,9 @@
 # Change log
 
+## v2.2.1 18/07/2019
+ - replace jquery upload app by a new react app
+ - update django to 2.2.4
+
 ## v2.1.1 16/06/2019
 - update django to 2.2.2
 - mod album photo css. Show photos in a more compact way
