@@ -23,13 +23,8 @@ class AlbumUploadPhotoView(DetailView):
         data = json.loads(self.request.body.decode('utf-8'))
         album = self.get_object()
 
-        for uploadedPhoto in data.get('done'):
-            logger.error('successful upload: ' + uploadedPhoto)
-            Photo.objects.create(album=album, filename=uploadedPhoto, date=datetime.now())
-
-        # log errors
-        for failedUpload in data.get('failed'):
-            logger.error('failed upload: ' + failedUpload)
+        logger.info('successful upload: ' + data.get('filename'))
+        Photo.objects.create(album=album, filename=data.get('filename'), date=datetime.now())
 
         return JsonResponse({'status': 'ok'})
 
@@ -52,17 +47,13 @@ class AlbumSignS3View(DetailView):
         # Initialise the S3 client
         s3 = boto3.client('s3', config=Config(signature_version='s3v4'))
 
-        signed_urls = dict()
-        for k, v in data.items():
-            presigned_url = s3.generate_presigned_url(
-                ClientMethod='put_object',
-                Params={
-                    'Bucket': S3_BUCKET,
-                    'Key': 'photos/' + album.dirpath + '/' + v.get('filename'),
-                    'ContentType': v.get('filetype')
-                }
-            )
-            signed_urls[k] = presigned_url
-
+        presigned_url = s3.generate_presigned_url(
+            ClientMethod='put_object',
+            Params={
+                'Bucket': S3_BUCKET,
+                'Key': 'photos/' + album.dirpath + '/' + data.get('filename'),
+                'ContentType': data.get('filetype')
+            }
+        )
         # Return the data to the client
-        return JsonResponse(signed_urls)
+        return JsonResponse({'url': presigned_url})
