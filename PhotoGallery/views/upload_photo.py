@@ -5,6 +5,7 @@ from datetime import datetime
 
 import boto3
 from botocore.config import Config
+from django.db.models import Q
 from django.http import JsonResponse
 from django.views.generic import DetailView
 from gallery.models import Album, Photo
@@ -22,9 +23,11 @@ class AlbumUploadPhotoView(DetailView):
     def post(self, *args, **kwargs):
         data = json.loads(self.request.body.decode('utf-8'))
         album = self.get_object()
-
         logger.info('successful upload: ' + data.get('filename'))
-        Photo.objects.create(album=album, filename=data.get('filename'), date=datetime.now())
+
+        filename = data.get('filename')
+        if not Photo.objects.filter(Q(album__name__exact=album.name), Q(filename__exact=filename)).exists():
+            Photo.objects.create(album=album, filename=data.get('filename'), date=datetime.now())
 
         return JsonResponse({'status': 'ok'})
 
